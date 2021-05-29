@@ -1,5 +1,7 @@
 package org.wolf.entity;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -8,43 +10,43 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
-public class Student {
-
+public class Student implements Serializable {
 	@Id
-	@Column(name = "stu_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "student_generator")
-	@SequenceGenerator(name = "student_generator", sequenceName = "student_seq", allocationSize = 1)
-	private @NonNull Long id;
-	private @NonNull String firstName;
-	private @NonNull String lastName;
+	@Column(name = "reg_num", unique = true)
+	private String registrationNumber;
+	private String firstName;
+	private String lastName;
 	@Column(unique = true)
-	private @NonNull String userName;
-	private @NonNull String password;
-	@Column(unique = true)
-	private @NonNull String registrationNumber;
+	private String userName;
+	private String password;
 
-	@OneToMany(mappedBy = "post_id", targetEntity = BlogPost.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST,
+	@OneToMany(mappedBy = "postedBy", targetEntity = BlogPost.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH })
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private @NonNull List<BlogPost> blogPosts;
+	private List<BlogPost> blogPosts;
 
 	@ManyToOne(targetEntity = College.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private @NonNull College collegeCode;
-	
-	@ManyToOne(targetEntity = Faculty.class, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private @NonNull Faculty facultyCode;
+	@JoinColumn(name = "college_code")
+	private College collegeCode;
+
 }

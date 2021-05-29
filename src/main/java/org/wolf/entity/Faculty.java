@@ -1,38 +1,52 @@
 package org.wolf.entity;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
-public class Faculty {
+public class Faculty implements Serializable {
 	@Id
-	@Column(name = "fac_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "faculty_generator")
-	@SequenceGenerator(name = "faculty_generator", sequenceName = "faculty_seq", allocationSize = 1)
-	private @NonNull Long id;
-	private @NonNull String firstName;
-	private @NonNull String lastName;
+	@Column(unique = true, name = "faculty_code")
+	private String facultyCode;
+	private String firstName;
+	private String lastName;
 	@Column(unique = true)
-	private @NonNull String userName;
-	private @NonNull String password;
-	@Column(unique = true)
-	private @NonNull String facultyCode;
+	private String userName;
+	private String password;
 
 	@ManyToOne(targetEntity = College.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinColumn(name = "clg_code")
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private @NonNull College collegeCode;
+	private College collegeCode;
+
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@JoinColumn(name = "student_reg_id")
+	private List<Student> studentList;
 
 }

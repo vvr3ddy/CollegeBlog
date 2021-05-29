@@ -1,5 +1,6 @@
 package org.wolf.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -8,38 +9,38 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class College {
 	@Id
-	@Column(name = "clg_id")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "college_generator")
-	@SequenceGenerator(name = "college_generator", sequenceName = "college_seq", allocationSize = 1)
-	private @NonNull Long id;
-	private @NonNull String firstName;
-	private @NonNull String lastName;
+	@Column(unique = true, name = "college_code")
+	private String collegeCode;
+	private String collegeName;
 	@Column(unique = true)
-	private @NonNull String userName;
-	private @NonNull String password;
-	@Column(unique = true)
-	private @NonNull String collegeCode;
+	private String userName;
+	private String password;
 
-	@OneToMany(mappedBy = "collegeCode", targetEntity = Student.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST,
-			CascadeType.REFRESH })
+	@OneToMany(mappedBy = "collegeCode", targetEntity = Student.class, cascade = { CascadeType.MERGE,
+			CascadeType.PERSIST, CascadeType.REFRESH })
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private @NonNull List<Student> students;
-	
-	@OneToMany(mappedBy = "facultyCode", targetEntity = Faculty.class, cascade= { CascadeType.MERGE, CascadeType.PERSIST,
-			CascadeType.REFRESH })
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private @NonNull List<Faculty> faculties;
+	private List<Student> students;
+
+	@OneToMany(mappedBy = "facultyCode", targetEntity = Faculty.class, cascade = { CascadeType.MERGE,
+			CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<Faculty> faculties;
 }

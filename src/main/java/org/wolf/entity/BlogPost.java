@@ -8,31 +8,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class BlogPost {
 	@Id
 	@Column(name = "post_id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_generator")
 	@SequenceGenerator(name = "post_generator", sequenceName = "post_seq", allocationSize = 1)
-	private @NonNull Long id;
-	private @NonNull String postTitle;
-	private @NonNull String postDescription;
-	private @NonNull LocalDateTime creationDate;
-	private @NonNull LocalDateTime updateTime;
-	private @NonNull Boolean isApproved;
+	private Long id;
+	private String postTitle;
+	private String postDescription;
+	private LocalDateTime creationDate;
+	private LocalDateTime updateTime;
+	@Column(columnDefinition = "boolean default 0")
+	private Boolean isApproved;
+	
+	private Integer flaggedCount;
 
 	@ManyToOne(targetEntity = Student.class, cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	private @NonNull Student postedBy;
+	@JoinColumn(name="student_code")
+	private Student postedBy;
 
 }
