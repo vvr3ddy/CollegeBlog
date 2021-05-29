@@ -9,10 +9,12 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class FacultyDTO {
 	@NotBlank(message = "Firstname cannot be blank.")
 	private @NonNull String firstName;
