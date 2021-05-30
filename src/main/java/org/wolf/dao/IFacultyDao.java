@@ -19,14 +19,19 @@ public interface IFacultyDao extends JpaRepository<Faculty, String> {
 
 	@Query("select new "
 			+ "org.wolf.dto.FacultyDTO(f.firstName, f.lastName, f.userName, f.password, f.facultyCode, f.collegeCode.collegeCode) "
-			+ "from Faculty f where f.collegeCode.collegeCode = :collegeCode order by f.collegeCode.collegeCode")
+			+ "from Faculty f where f.collegeCode.collegeCode like :collegeCode order by f.collegeCode.collegeCode")
 	List<FacultyDTO> listByCollegeCode(String collegeCode);
 
 	@Query("select new "
 			+ "org.wolf.dto.FacultyDTO(f.firstName, f.lastName, f.userName, f.password, f.facultyCode, f.collegeCode.collegeCode) "
-			+ "from Faculty f where f.facultyCode=:facCode "
-			+ "order by f.facultyCode")
-	
+			+ "from Faculty f where f.facultyCode like :facCode " + "order by f.facultyCode")
 	FacultyDTO findByFacultyCode(@Param("facCode") String facultyCode);
+
+	@Query("select new "
+			+ "org.wolf.dto.FacultyDTO(f.firstName, f.lastName, f.userName, f.password, f.facultyCode, f.collegeCode.collegeCode) "
+			+ "from Faculty f where f.userName like :userName order by f.facultyCode")
+	FacultyDTO findByUserName(@Param("userName") String userName);
+	
+	boolean existsByUserName(String userName);
 
 }

@@ -16,6 +16,8 @@ public interface IFacultyService {
 	public void deleteFaculty(String facultyCode);
 	
 	public FacultyDTO findByFacultyCode(String facultyCode);
+	
+	public FacultyDTO findByUserName(String userName);
 
 	public List<FacultyDTO> listAllFaculty();
 

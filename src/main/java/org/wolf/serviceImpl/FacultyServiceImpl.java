@@ -78,11 +78,19 @@ public class FacultyServiceImpl implements IFacultyService {
 
 	@Override
 	public FacultyDTO findByFacultyCode(String facultyCode) {
-		if(facultyDao.existsById(facultyCode)) {
+		if (facultyDao.existsById(facultyCode)) {
 			return facultyDao.findByFacultyCode(facultyCode);
-		}else {
+		} else {
 			throw new InvalidFacultyException();
 		}
+	}
+
+	@Override
+	public FacultyDTO findByUserName(String userName) {
+		if (facultyDao.existsByUserName(userName)) {
+			return facultyDao.findByUserName(userName);
+		} else
+			throw new InvalidFacultyException();
 	}
 
 }

@@ -124,4 +124,17 @@ public class FacultyController {
 			}
 		}
 	}
+	
+	@GetMapping("/get/userName/{userName}")
+	public ResponseEntity<Object> findByUserName(@PathVariable String userName) {
+		if(userName.isBlank()||userName.isEmpty()) {
+			throw new InvalidFacultyException("Username cannot be blank!");
+		}else {
+			try {
+				return new ResponseEntity<>(facultyService.findByUserName(userName), HttpStatus.OK);
+			}catch(InvalidFacultyException e) {
+				throw new InvalidFacultyException("Faculty with given username not found!");
+			}
+		}
+	}
 }

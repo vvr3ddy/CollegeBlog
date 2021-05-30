@@ -84,4 +84,12 @@ public class StudentServiceImpl implements IStudentService {
 			throw new InvalidStudentException();
 	}
 
+	@Override
+	public StudentDTO findByUserName(String userName) {
+		if (studentDao.existsByUserName(userName)) {
+			return studentDao.findByUserName(userName);
+		} else
+			throw new InvalidStudentException();
+	}
+
 }

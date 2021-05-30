@@ -19,4 +19,6 @@ public interface IStudentService {
 	public List<StudentDTO> listByCollegeCode(String collegeCode);
 	
 	public StudentDTO findByUSN(String studentUSN);
+	
+	public StudentDTO findByUserName(String userName);
 }

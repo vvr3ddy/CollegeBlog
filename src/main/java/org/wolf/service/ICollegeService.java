@@ -10,9 +10,11 @@ import org.wolf.entity.College;
 public interface ICollegeService {
 	public College addCollege(CollegeDTO collegeDTO);
 
-	public College updateCollege(String CollegeCode, CollegeDTO collegeDTO);
+	public College updateCollege(String collegeCode, CollegeDTO collegeDTO);
 
 	public void deleteCollegeById(String collegeCode);
 
 	public List<CollegeDTO> listAllColleges();
+	
+	public CollegeDTO findByuserName(String userName);
 }

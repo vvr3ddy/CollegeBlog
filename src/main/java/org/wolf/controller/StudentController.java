@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.wolf.dto.StudentDTO;
 import org.wolf.exception.BlogAppValidationException;
+import org.wolf.exception.InvalidFacultyException;
 import org.wolf.exception.InvalidStudentException;
 import org.wolf.service.IStudentService;
 
@@ -119,6 +120,19 @@ public class StudentController {
 				return new ResponseEntity<>(studentService.findByUSN(studentUSN), HttpStatus.OK);
 			} catch (InvalidStudentException e) {
 				throw new InvalidStudentException("Student with given USN not found.");
+			}
+		}
+	}
+
+	@GetMapping("/get/userName/{userName}")
+	public ResponseEntity<Object> findByUserName(@PathVariable String userName) {
+		if (userName.isBlank() || userName.isEmpty()) {
+			throw new InvalidStudentException("Username cannot be blank!");
+		} else {
+			try {
+				return new ResponseEntity<>(studentService.findByUserName(userName), HttpStatus.OK);
+			} catch (InvalidFacultyException e) {
+				throw new InvalidStudentException("Student with given username not found!");
 			}
 		}
 	}

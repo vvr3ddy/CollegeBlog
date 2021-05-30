@@ -14,13 +14,16 @@ public interface IStudentDao extends JpaRepository<Student, String> {
 
 	@Query("select new org.wolf.dto.StudentDTO(s.firstName, s.lastName, s.userName, s.password, s.registrationNumber, s.collegeCode.collegeCode ) from Student s order by s.registrationNumber")
 	List<StudentDTO> listAll();
-	
+
 	@Query("select new org.wolf.dto.StudentDTO(s.firstName, s.lastName, s.userName, s.password, s.registrationNumber, s.collegeCode.collegeCode ) from Student s where s.collegeCode like :clgCode order by s.registrationNumber")
 	List<StudentDTO> listAllByCollegeCode(@Param("clgCode") String clgCode);
 
 	@Query("select new org.wolf.dto.StudentDTO(s.firstName, s.lastName, s.userName, s.password, s.registrationNumber, s.collegeCode.collegeCode ) from Student s where s.registrationNumber like :USN order by s.registrationNumber")
 	StudentDTO findByUSN(@Param("USN") String studentUSN);
-	
-	
+
 	boolean existsByUserName(String userName);
+
+	@Query("select new org.wolf.dto.StudentDTO(s.firstName, s.lastName, s.userName, s.password, s.registrationNumber, s.collegeCode.collegeCode ) from Student s where s.userName like :userName order by s.registrationNumber")
+	StudentDTO findByUserName(@Param("userName") String userName);
+
 }

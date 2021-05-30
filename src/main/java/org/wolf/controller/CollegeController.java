@@ -97,5 +97,19 @@ public class CollegeController {
 	public ResponseEntity<Object> listAllColleges() {
 		return new ResponseEntity<>(collegeService.listAllColleges(), HttpStatus.OK);
 	}
+	
+	@GetMapping("/get/userName/{userName}")
+	public ResponseEntity<Object> findByUserName(@PathVariable String userName){
+		if(userName.isBlank()|| userName.isEmpty()) {
+			throw new InvalidCollegeException("Username cannot be blank!");
+		}
+		else {
+			try {
+				return new ResponseEntity<>(collegeService.findByuserName(userName), HttpStatus.OK);
+			}catch(InvalidCollegeException e) {
+				throw new InvalidCollegeException("College with given username doesn't exist!");
+			}
+		}
+	}
 
 }

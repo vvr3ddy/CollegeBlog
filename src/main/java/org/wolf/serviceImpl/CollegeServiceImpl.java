@@ -59,4 +59,13 @@ public class CollegeServiceImpl implements ICollegeService {
 		return collegeDao.listAll();
 	}
 
+	@Override
+	public CollegeDTO findByuserName(String userName) {
+		if (collegeDao.existsByUserName(userName)) {
+			return collegeDao.findByUserName(userName);
+		} else {
+			throw new InvalidCollegeException();
+		}
+	}
+
 }
