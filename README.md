@@ -22,8 +22,8 @@
 10. Run the app as a Spring Boot Application.
 
 ## Screenshots
-<img src="https://i.imgur.com/6iVuogL.png" alt="Main API Controllers Screenshot" width="720px" />
-<img src="https://i.imgur.com/6fYfOSc.png" alt="Blog Post Controller API Endpoints" width="720px" />
-<img src="https://i.imgur.com/7M6fwNf.png" alt="College Controller API Endpoints" width="720px" />
-<img src="https://i.imgur.com/gV6Acai.png" alt="Faculty Controller API Endpoints" width="720px" />
-<img src="https://i.imgur.com/4LYGmAr.png" alt="Student Controller API Endpoints" width="720px" />
+<img src="https://i.imgur.com/1IN9T5y.png" alt="Main API Controllers Screenshot" width="720px" />
+<img src="https://i.imgur.com/b0rsr7I.png" alt="Blog Post Controller API Endpoints" width="720px" />
+<img src="https://i.imgur.com/qidHsFI.png" alt="College Controller API Endpoints" width="720px" />
+<img src="https://i.imgur.com/XGI6eUg.png" alt="Faculty Controller API Endpoints" width="720px" />
+<img src="https://i.imgur.com/Fbh8Obz.png" alt="Student Controller API Endpoints" width="720px" />
