@@ -41,22 +41,6 @@ public class StudentServiceImpl implements IStudentService {
 	}
 
 	@Override
-	public Student updateStudent(String studentUSN, StudentDTO studentDto) {
-		if (studentDao.existsById(studentUSN)) {
-			Student student = studentDao.findById(studentUSN).get();
-			student.setFirstName(studentDto.getFirstName());
-			student.setLastName(studentDto.getLastName());
-			student.setCollegeCode(collegeDao.findById(studentDto.getCollegeCode()).get());
-			student.setUserName(studentDto.getUserName());
-			student.setPassword(studentDto.getPassword());
-
-			return studentDao.save(student);
-		} else {
-			throw new InvalidStudentException();
-		}
-	}
-
-	@Override
 	public void deleteStudent(String studentUSN) {
 		if (studentDao.existsById(studentUSN)) {
 			studentDao.deleteById(studentUSN);
@@ -64,6 +48,22 @@ public class StudentServiceImpl implements IStudentService {
 			throw new InvalidStudentException();
 		}
 
+	}
+
+	@Override
+	public StudentDTO findByUserName(String userName) {
+		if (studentDao.existsByUserName(userName)) {
+			return studentDao.findByUserName(userName);
+		} else
+			throw new InvalidStudentException();
+	}
+
+	@Override
+	public StudentDTO findByUSN(String studentUSN) {
+		if (studentDao.existsById(studentUSN)) {
+			return studentDao.findByUSN(studentUSN);
+		} else
+			throw new InvalidStudentException();
 	}
 
 	@Override
@@ -77,19 +77,19 @@ public class StudentServiceImpl implements IStudentService {
 	}
 
 	@Override
-	public StudentDTO findByUSN(String studentUSN) {
+	public Student updateStudent(String studentUSN, StudentDTO studentDto) {
 		if (studentDao.existsById(studentUSN)) {
-			return studentDao.findByUSN(studentUSN);
-		} else
-			throw new InvalidStudentException();
-	}
+			Student student = studentDao.findById(studentUSN).get();
+			student.setFirstName(studentDto.getFirstName());
+			student.setLastName(studentDto.getLastName());
+			student.setCollegeCode(collegeDao.findById(studentDto.getCollegeCode()).get());
+			student.setUserName(studentDto.getUserName());
+			student.setPassword(studentDto.getPassword());
 
-	@Override
-	public StudentDTO findByUserName(String userName) {
-		if (studentDao.existsByUserName(userName)) {
-			return studentDao.findByUserName(userName);
-		} else
+			return studentDao.save(student);
+		} else {
 			throw new InvalidStudentException();
+		}
 	}
 
 }

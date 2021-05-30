@@ -12,12 +12,12 @@ import org.wolf.entity.College;
 @Repository
 public interface ICollegeDao extends JpaRepository<College, String> {
 
-	@Query("select new org.wolf.dto.CollegeDTO(c.collegeCode, c.collegeName, c.userName, c.password) from College c order by c.collegeCode")
-	List<CollegeDTO> listAll();
+	boolean existsByUserName(String userName);
 
 	@Query("select new org.wolf.dto.CollegeDTO(c.collegeCode, c.collegeName, c.userName, c.password) from College c where c.userName=:userName order by c.collegeCode")
 	CollegeDTO findByUserName(@Param("userName") String userName);
 	
-	boolean existsByUserName(String userName);
+	@Query("select new org.wolf.dto.CollegeDTO(c.collegeCode, c.collegeName, c.userName, c.password) from College c order by c.collegeCode")
+	List<CollegeDTO> listAll();
 
 }

@@ -31,6 +31,39 @@ public class CollegeController {
 	@Autowired
 	ICollegeService collegeService;
 
+	@DeleteMapping("/delete/{collegeCode}")
+	public ResponseEntity<Object> deleteCollegeById(@PathVariable String collegeCode){
+		if(collegeCode.isBlank()||collegeCode.isEmpty()) {
+			throw new InvalidCollegeException("College code is blank!");
+		}else {
+			try {
+				collegeService.deleteCollegeById(collegeCode);
+				return new ResponseEntity<>("Deleted College from Records!", HttpStatus.OK);
+			}catch(InvalidCollegeException e) {
+				throw new InvalidCollegeException("College with given code not found!");
+			}
+		}
+	}
+
+	@GetMapping("/get/userName/{userName}")
+	public ResponseEntity<Object> findByUserName(@PathVariable String userName){
+		if(userName.isBlank()|| userName.isEmpty()) {
+			throw new InvalidCollegeException("Username cannot be blank!");
+		}
+		else {
+			try {
+				return new ResponseEntity<>(collegeService.findByuserName(userName), HttpStatus.OK);
+			}catch(InvalidCollegeException e) {
+				throw new InvalidCollegeException("College with given username doesn't exist!");
+			}
+		}
+	}
+
+	@GetMapping("/get")
+	public ResponseEntity<Object> listAllColleges() {
+		return new ResponseEntity<>(collegeService.listAllColleges(), HttpStatus.OK);
+	}
+
 	@PostMapping("/add")
 	public ResponseEntity<Object> newCollege(@Valid @RequestBody CollegeDTO collegeDto, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
@@ -51,7 +84,7 @@ public class CollegeController {
 			throw new InvalidCollegeException("College could not be created due to errors!");
 		}
 	}
-
+	
 	@PutMapping("/update/{collegeCode}")
 	public ResponseEntity<Object> updateCollege(@PathVariable String collegeCode,
 			@Valid @RequestBody CollegeDTO collegeDTO, BindingResult bindingResult) {
@@ -77,39 +110,6 @@ public class CollegeController {
 			}
 		}
 
-	}
-
-	@DeleteMapping("/delete/{collegeCode}")
-	public ResponseEntity<Object> deleteCollegeById(@PathVariable String collegeCode){
-		if(collegeCode.isBlank()||collegeCode.isEmpty()) {
-			throw new InvalidCollegeException("College code is blank!");
-		}else {
-			try {
-				collegeService.deleteCollegeById(collegeCode);
-				return new ResponseEntity<>("Deleted College from Records!", HttpStatus.OK);
-			}catch(InvalidCollegeException e) {
-				throw new InvalidCollegeException("College with given code not found!");
-			}
-		}
-	}
-
-	@GetMapping("/get")
-	public ResponseEntity<Object> listAllColleges() {
-		return new ResponseEntity<>(collegeService.listAllColleges(), HttpStatus.OK);
-	}
-	
-	@GetMapping("/get/userName/{userName}")
-	public ResponseEntity<Object> findByUserName(@PathVariable String userName){
-		if(userName.isBlank()|| userName.isEmpty()) {
-			throw new InvalidCollegeException("Username cannot be blank!");
-		}
-		else {
-			try {
-				return new ResponseEntity<>(collegeService.findByuserName(userName), HttpStatus.OK);
-			}catch(InvalidCollegeException e) {
-				throw new InvalidCollegeException("College with given username doesn't exist!");
-			}
-		}
 	}
 
 }

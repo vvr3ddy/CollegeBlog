@@ -10,15 +10,15 @@ import org.wolf.entity.Student;
 public interface IStudentService {
 	public Student addStudent(StudentDTO studentDto);
 
-	public Student updateStudent(String studentUSN, StudentDTO studentDto);
-
 	public void deleteStudent(String studentUSN);
 
-	public List<StudentDTO> listAllStudents();
+	public StudentDTO findByUserName(String userName);
 
+	public StudentDTO findByUSN(String studentUSN);
+
+	public List<StudentDTO> listAllStudents();
+	
 	public List<StudentDTO> listByCollegeCode(String collegeCode);
 	
-	public StudentDTO findByUSN(String studentUSN);
-	
-	public StudentDTO findByUserName(String userName);
+	public Student updateStudent(String studentUSN, StudentDTO studentDto);
 }

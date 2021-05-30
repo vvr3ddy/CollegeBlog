@@ -12,15 +12,7 @@ import org.wolf.entity.Faculty;
 @Repository
 public interface IFacultyDao extends JpaRepository<Faculty, String> {
 
-	@Query("select new "
-			+ "org.wolf.dto.FacultyDTO(f.firstName, f.lastName, f.userName, f.password, f.facultyCode, f.collegeCode.collegeCode) "
-			+ "from Faculty f order by f.facultyCode")
-	List<FacultyDTO> listAll();
-
-	@Query("select new "
-			+ "org.wolf.dto.FacultyDTO(f.firstName, f.lastName, f.userName, f.password, f.facultyCode, f.collegeCode.collegeCode) "
-			+ "from Faculty f where f.collegeCode.collegeCode like :collegeCode order by f.collegeCode.collegeCode")
-	List<FacultyDTO> listByCollegeCode(String collegeCode);
+	boolean existsByUserName(String userName);
 
 	@Query("select new "
 			+ "org.wolf.dto.FacultyDTO(f.firstName, f.lastName, f.userName, f.password, f.facultyCode, f.collegeCode.collegeCode) "
@@ -31,7 +23,15 @@ public interface IFacultyDao extends JpaRepository<Faculty, String> {
 			+ "org.wolf.dto.FacultyDTO(f.firstName, f.lastName, f.userName, f.password, f.facultyCode, f.collegeCode.collegeCode) "
 			+ "from Faculty f where f.userName like :userName order by f.facultyCode")
 	FacultyDTO findByUserName(@Param("userName") String userName);
+
+	@Query("select new "
+			+ "org.wolf.dto.FacultyDTO(f.firstName, f.lastName, f.userName, f.password, f.facultyCode, f.collegeCode.collegeCode) "
+			+ "from Faculty f order by f.facultyCode")
+	List<FacultyDTO> listAll();
 	
-	boolean existsByUserName(String userName);
+	@Query("select new "
+			+ "org.wolf.dto.FacultyDTO(f.firstName, f.lastName, f.userName, f.password, f.facultyCode, f.collegeCode.collegeCode) "
+			+ "from Faculty f where f.collegeCode.collegeCode like :collegeCode order by f.collegeCode.collegeCode")
+	List<FacultyDTO> listByCollegeCode(String collegeCode);
 
 }

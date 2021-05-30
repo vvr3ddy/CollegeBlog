@@ -32,19 +32,6 @@ public class CollegeServiceImpl implements ICollegeService {
 	}
 
 	@Override
-	public College updateCollege(String collegeCode, CollegeDTO collegeDTO) {
-		if (collegeDao.existsById(collegeCode)) {
-			College college = collegeDao.findById(collegeCode).get();
-			college.setCollegeName(collegeDTO.getCollegeName());
-			college.setUserName(collegeDTO.getUserName());
-			college.setPassword(collegeDTO.getPassword());
-			return collegeDao.save(college);
-		} else {
-			throw new InvalidCollegeException();
-		}
-	}
-
-	@Override
 	public void deleteCollegeById(String collegeCode) {
 		if (collegeDao.existsById(collegeCode)) {
 			collegeDao.deleteById(collegeCode);
@@ -55,14 +42,27 @@ public class CollegeServiceImpl implements ICollegeService {
 	}
 
 	@Override
+	public CollegeDTO findByuserName(String userName) {
+		if (collegeDao.existsByUserName(userName)) {
+			return collegeDao.findByUserName(userName);
+		} else {
+			throw new InvalidCollegeException();
+		}
+	}
+
+	@Override
 	public List<CollegeDTO> listAllColleges() {
 		return collegeDao.listAll();
 	}
 
 	@Override
-	public CollegeDTO findByuserName(String userName) {
-		if (collegeDao.existsByUserName(userName)) {
-			return collegeDao.findByUserName(userName);
+	public College updateCollege(String collegeCode, CollegeDTO collegeDTO) {
+		if (collegeDao.existsById(collegeCode)) {
+			College college = collegeDao.findById(collegeCode).get();
+			college.setCollegeName(collegeDTO.getCollegeName());
+			college.setUserName(collegeDTO.getUserName());
+			college.setPassword(collegeDTO.getPassword());
+			return collegeDao.save(college);
 		} else {
 			throw new InvalidCollegeException();
 		}

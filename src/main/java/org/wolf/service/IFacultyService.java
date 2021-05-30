@@ -11,16 +11,16 @@ public interface IFacultyService {
 
 	public Faculty addFaculty(FacultyDTO facultyDTO);
 
-	public Faculty updateFaculty(String facultyCode, FacultyDTO facultyDTO);
-	
 	public void deleteFaculty(String facultyCode);
 	
 	public FacultyDTO findByFacultyCode(String facultyCode);
 	
 	public FacultyDTO findByUserName(String userName);
-
+	
 	public List<FacultyDTO> listAllFaculty();
 
 	public List<FacultyDTO> listFacultyByCollegeCode(String collegeCode);
+
+	public Faculty updateFaculty(String facultyCode, FacultyDTO facultyDTO);
 
 }

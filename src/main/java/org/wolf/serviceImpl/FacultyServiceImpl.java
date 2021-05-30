@@ -38,21 +38,6 @@ public class FacultyServiceImpl implements IFacultyService {
 	}
 
 	@Override
-	public Faculty updateFaculty(String facultyCode, FacultyDTO facultyDTO) {
-		if (facultyDao.existsById(facultyCode) || !collegeDao.existsById(facultyDTO.getCollegeCode())) {
-			Faculty faculty = facultyDao.findById(facultyCode).get();
-			faculty.setCollegeCode(collegeDao.findById(facultyDTO.getCollegeCode()).get());
-			faculty.setFirstName(facultyDTO.getFirstName());
-			faculty.setLastName(facultyDTO.getLastName());
-			faculty.setUserName(facultyDTO.getUserName());
-			faculty.setPassword(facultyDTO.getPassword());
-			return facultyDao.save(faculty);
-		} else {
-			throw new InvalidFacultyException();
-		}
-	}
-
-	@Override
 	public void deleteFaculty(String facultyCode) {
 		if (facultyDao.existsById(facultyCode)) {
 			facultyDao.deleteById(facultyCode);
@@ -60,20 +45,6 @@ public class FacultyServiceImpl implements IFacultyService {
 			throw new InvalidFacultyException();
 		}
 
-	}
-
-	@Override
-	public List<FacultyDTO> listAllFaculty() {
-		return facultyDao.listAll();
-	}
-
-	@Override
-	public List<FacultyDTO> listFacultyByCollegeCode(String collegeCode) {
-		if (collegeDao.existsById(collegeCode)) {
-			return facultyDao.listByCollegeCode(collegeCode);
-		} else {
-			throw new InvalidFacultyException();
-		}
 	}
 
 	@Override
@@ -91,6 +62,35 @@ public class FacultyServiceImpl implements IFacultyService {
 			return facultyDao.findByUserName(userName);
 		} else
 			throw new InvalidFacultyException();
+	}
+
+	@Override
+	public List<FacultyDTO> listAllFaculty() {
+		return facultyDao.listAll();
+	}
+
+	@Override
+	public List<FacultyDTO> listFacultyByCollegeCode(String collegeCode) {
+		if (collegeDao.existsById(collegeCode)) {
+			return facultyDao.listByCollegeCode(collegeCode);
+		} else {
+			throw new InvalidFacultyException();
+		}
+	}
+
+	@Override
+	public Faculty updateFaculty(String facultyCode, FacultyDTO facultyDTO) {
+		if (facultyDao.existsById(facultyCode) || !collegeDao.existsById(facultyDTO.getCollegeCode())) {
+			Faculty faculty = facultyDao.findById(facultyCode).get();
+			faculty.setCollegeCode(collegeDao.findById(facultyDTO.getCollegeCode()).get());
+			faculty.setFirstName(facultyDTO.getFirstName());
+			faculty.setLastName(facultyDTO.getLastName());
+			faculty.setUserName(facultyDTO.getUserName());
+			faculty.setPassword(facultyDTO.getPassword());
+			return facultyDao.save(faculty);
+		} else {
+			throw new InvalidFacultyException();
+		}
 	}
 
 }

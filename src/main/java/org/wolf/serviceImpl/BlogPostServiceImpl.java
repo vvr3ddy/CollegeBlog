@@ -45,15 +45,11 @@ public class BlogPostServiceImpl implements IBlogPostService {
 	}
 
 	@Override
-	public BlogPost updatePost(Long postId, BlogPostDTO blogPostDto) {
+	public BlogPost approvePost(Long postId) {
 		if (blogPostDao.existsById(postId)) {
-			BlogPost blogPost = blogPostDao.findById(postId).get();
-			blogPost.setIsApproved(false);
-			blogPost.setPostTitle(blogPostDto.getPostTitle());
-			blogPost.setPostDescription(blogPostDto.getPostDescription());
-			blogPost.setUpdateTime(LocalDateTime.now());
-			blogPost.setFlaggedCount(0);
-			return blogPostDao.save(blogPost);
+			BlogPost blog = blogPostDao.findById(postId).get();
+			blog.setIsApproved(true);
+			return blogPostDao.save(blog);
 		} else {
 			throw new InvalidBlogPostException();
 		}
@@ -79,27 +75,6 @@ public class BlogPostServiceImpl implements IBlogPostService {
 	}
 
 	@Override
-	public List<BlogPostDTO> listFlaggedPosts() {
-		return blogPostDao.listFlaggedPosts();
-	}
-
-	@Override
-	public List<BlogPostDTO> listAllPosts() {
-		return blogPostDao.listAllPosts();
-	}
-
-	@Override
-	public BlogPost approvePost(Long postId) {
-		if (blogPostDao.existsById(postId)) {
-			BlogPost blog = blogPostDao.findById(postId).get();
-			blog.setIsApproved(true);
-			return blogPostDao.save(blog);
-		} else {
-			throw new InvalidBlogPostException();
-		}
-	}
-
-	@Override
 	public void flagPost(Long postId, String facultyCode) {
 		if (blogPostDao.existsById(postId) && facultyDao.existsById(facultyCode)) {
 			BlogPost post = blogPostDao.findById(postId).get();
@@ -108,6 +83,31 @@ public class BlogPostServiceImpl implements IBlogPostService {
 		} else
 			throw new InvalidBlogPostException();
 
+	}
+
+	@Override
+	public List<BlogPostDTO> listAllPosts() {
+		return blogPostDao.listAllPosts();
+	}
+
+	@Override
+	public List<BlogPostDTO> listFlaggedPosts() {
+		return blogPostDao.listFlaggedPosts();
+	}
+
+	@Override
+	public BlogPost updatePost(Long postId, BlogPostDTO blogPostDto) {
+		if (blogPostDao.existsById(postId)) {
+			BlogPost blogPost = blogPostDao.findById(postId).get();
+			blogPost.setIsApproved(false);
+			blogPost.setPostTitle(blogPostDto.getPostTitle());
+			blogPost.setPostDescription(blogPostDto.getPostDescription());
+			blogPost.setUpdateTime(LocalDateTime.now());
+			blogPost.setFlaggedCount(0);
+			return blogPostDao.save(blogPost);
+		} else {
+			throw new InvalidBlogPostException();
+		}
 	}
 
 }

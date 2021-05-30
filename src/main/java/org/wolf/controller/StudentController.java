@@ -32,6 +32,64 @@ public class StudentController {
 	@Autowired
 	IStudentService studentService;
 
+	@DeleteMapping("/delete/{studentUSN}")
+	public ResponseEntity<Object> deleteStudent(@PathVariable String studentUSN) {
+		if (studentUSN.isBlank() || studentUSN.isEmpty()) {
+			throw new InvalidStudentException("StudentUSN is blank.");
+		} else {
+			try {
+				studentService.deleteStudent(studentUSN);
+				return new ResponseEntity<>("Deleted Student Successfully", HttpStatus.OK);
+			} catch (InvalidStudentException e) {
+				throw new InvalidStudentException("Student with Specified USN not found");
+			}
+		}
+	}
+
+	@GetMapping("/get/userName/{userName}")
+	public ResponseEntity<Object> findByUserName(@PathVariable String userName) {
+		if (userName.isBlank() || userName.isEmpty()) {
+			throw new InvalidStudentException("Username cannot be blank!");
+		} else {
+			try {
+				return new ResponseEntity<>(studentService.findByUserName(userName), HttpStatus.OK);
+			} catch (InvalidFacultyException e) {
+				throw new InvalidStudentException("Student with given username not found!");
+			}
+		}
+	}
+
+	@GetMapping("/get/USN/{studentUSN}")
+	public ResponseEntity<Object> findByUSN(@PathVariable String studentUSN) {
+		if (studentUSN.isBlank() || studentUSN.isEmpty()) {
+			throw new InvalidStudentException("Student USN is blank.");
+		} else {
+			try {
+				return new ResponseEntity<>(studentService.findByUSN(studentUSN), HttpStatus.OK);
+			} catch (InvalidStudentException e) {
+				throw new InvalidStudentException("Student with given USN not found.");
+			}
+		}
+	}
+
+	@GetMapping("/get/college/{clgCode}")
+	public ResponseEntity<Object> listAllByClgCode(@PathVariable String collegeCode) {
+		if (!(collegeCode.isEmpty() || collegeCode.isBlank())) {
+			try {
+				return new ResponseEntity<>(studentService.listByCollegeCode(collegeCode), HttpStatus.OK);
+			} catch (InvalidStudentException e) {
+				throw new InvalidStudentException("Invalid College code specified");
+			}
+		} else {
+			throw new InvalidStudentException("College Code is Blank.");
+		}
+	}
+
+	@GetMapping("/get/all")
+	public ResponseEntity<Object> listAllStudents() {
+		return new ResponseEntity<>(studentService.listAllStudents(), HttpStatus.OK);
+	}
+
 	@PostMapping("/add")
 	public ResponseEntity<Object> newStudent(@Valid @RequestBody StudentDTO studentDto, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
@@ -75,64 +133,6 @@ public class StudentController {
 				return new ResponseEntity<>("Updated Student Details successfully", HttpStatus.OK);
 			} catch (InvalidStudentException e) {
 				throw new InvalidStudentException("Student could not be updated due to errors.");
-			}
-		}
-	}
-
-	@DeleteMapping("/delete/{studentUSN}")
-	public ResponseEntity<Object> deleteStudent(@PathVariable String studentUSN) {
-		if (studentUSN.isBlank() || studentUSN.isEmpty()) {
-			throw new InvalidStudentException("StudentUSN is blank.");
-		} else {
-			try {
-				studentService.deleteStudent(studentUSN);
-				return new ResponseEntity<>("Deleted Student Successfully", HttpStatus.OK);
-			} catch (InvalidStudentException e) {
-				throw new InvalidStudentException("Student with Specified USN not found");
-			}
-		}
-	}
-
-	@GetMapping("/get/all")
-	public ResponseEntity<Object> listAllStudents() {
-		return new ResponseEntity<>(studentService.listAllStudents(), HttpStatus.OK);
-	}
-
-	@GetMapping("/get/college/{clgCode}")
-	public ResponseEntity<Object> listAllByClgCode(@PathVariable String collegeCode) {
-		if (!(collegeCode.isEmpty() || collegeCode.isBlank())) {
-			try {
-				return new ResponseEntity<>(studentService.listByCollegeCode(collegeCode), HttpStatus.OK);
-			} catch (InvalidStudentException e) {
-				throw new InvalidStudentException("Invalid College code specified");
-			}
-		} else {
-			throw new InvalidStudentException("College Code is Blank.");
-		}
-	}
-
-	@GetMapping("/get/USN/{studentUSN}")
-	public ResponseEntity<Object> findByUSN(@PathVariable String studentUSN) {
-		if (studentUSN.isBlank() || studentUSN.isEmpty()) {
-			throw new InvalidStudentException("Student USN is blank.");
-		} else {
-			try {
-				return new ResponseEntity<>(studentService.findByUSN(studentUSN), HttpStatus.OK);
-			} catch (InvalidStudentException e) {
-				throw new InvalidStudentException("Student with given USN not found.");
-			}
-		}
-	}
-
-	@GetMapping("/get/userName/{userName}")
-	public ResponseEntity<Object> findByUserName(@PathVariable String userName) {
-		if (userName.isBlank() || userName.isEmpty()) {
-			throw new InvalidStudentException("Username cannot be blank!");
-		} else {
-			try {
-				return new ResponseEntity<>(studentService.findByUserName(userName), HttpStatus.OK);
-			} catch (InvalidFacultyException e) {
-				throw new InvalidStudentException("Student with given username not found!");
 			}
 		}
 	}

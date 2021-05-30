@@ -22,6 +22,7 @@ import org.wolf.dto.BlogPostDTO;
 import org.wolf.exception.BlogAppValidationException;
 import org.wolf.exception.InvalidBlogPostException;
 import org.wolf.service.IBlogPostService;
+
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
@@ -30,6 +31,72 @@ public class BlogPostController {
 
 	@Autowired
 	IBlogPostService blogPostService;
+
+	@GetMapping("/approve/{postId}")
+	public ResponseEntity<Object> approvePost(@PathVariable Long postId) {
+		if (postId != null) {
+			try {
+				blogPostService.approvePost(postId);
+				return new ResponseEntity<>("Post has been approved Succesfully!", HttpStatus.OK);
+			} catch (InvalidBlogPostException e) {
+				throw new InvalidBlogPostException("Post with given Id not found!");
+			}
+		} else {
+			throw new InvalidBlogPostException("Post Id cannot be blank!");
+		}
+	}
+
+	@DeleteMapping("/delete/{postId}")
+	public ResponseEntity<Object> deletePost(@PathVariable Long postId) {
+		if (postId == null) {
+			throw new InvalidBlogPostException("Post Id cannot be blank!");
+		} else {
+			try {
+				blogPostService.deleteBlogPost(postId);
+				return new ResponseEntity<>("Post Deleted Successfully!", HttpStatus.OK);
+			} catch (InvalidBlogPostException e) {
+				throw new InvalidBlogPostException("Post with given id not found!");
+			}
+		}
+	}
+
+	@GetMapping("/get/")
+	public ResponseEntity<Object> findAllPosts() {
+		return new ResponseEntity<>(blogPostService.listAllPosts(), HttpStatus.OK);
+	}
+
+	@GetMapping("/get/findByAuthor/{userName}")
+	public ResponseEntity<Object> findByAuthors(@PathVariable String userName) {
+		if (userName.isBlank() || userName.isEmpty()) {
+			throw new InvalidBlogPostException("Author username cannot be blank!");
+		} else {
+			try {
+				return new ResponseEntity<>(blogPostService.findPostsByAuthor(userName), HttpStatus.OK);
+			} catch (InvalidBlogPostException e) {
+				throw new InvalidBlogPostException("Author with given username not found!");
+			}
+		}
+	}
+
+	@GetMapping("/get/flaggedPosts")
+	public ResponseEntity<Object> findFlaggedPosts() {
+		return new ResponseEntity<>(blogPostService.listFlaggedPosts(), HttpStatus.OK);
+	}
+
+	@PutMapping("/flagPost/{postId}")
+	public ResponseEntity<Object> flagPost(@PathVariable Long postId, @RequestParam String facultyCode) {
+		if (postId == null && (facultyCode.isBlank() || facultyCode.isEmpty())) {
+			throw new InvalidBlogPostException("Post Id or Faculty Coe is blank!");
+		} else {
+			try {
+				blogPostService.flagPost(postId, facultyCode);
+				return new ResponseEntity<>("Post Flagged Successfully!", HttpStatus.OK);
+			} catch (InvalidBlogPostException e) {
+				throw new InvalidBlogPostException(
+						"Post could not be flagged either because post with Id doesn't exist or because faculty with code doesn't exist!");
+			}
+		}
+	}
 
 	@PostMapping("/add")
 	public ResponseEntity<Object> newPost(@Valid @RequestBody BlogPostDTO blogPostDto, BindingResult bindingResult) {
@@ -48,20 +115,6 @@ public class BlogPostController {
 			return new ResponseEntity<>("New Post created Successfully!", HttpStatus.OK);
 		} catch (InvalidBlogPostException e) {
 			throw new InvalidBlogPostException("Post could not be created due to some errors!");
-		}
-	}
-
-	@GetMapping("/approve/{postId}")
-	public ResponseEntity<Object> approvePost(@PathVariable Long postId) {
-		if (postId != null) {
-			try {
-				blogPostService.approvePost(postId);
-				return new ResponseEntity<>("Post has been approved Succesfully!", HttpStatus.OK);
-			} catch (InvalidBlogPostException e) {
-				throw new InvalidBlogPostException("Post with given Id not found!");
-			}
-		} else {
-			throw new InvalidBlogPostException("Post Id cannot be blank!");
 		}
 	}
 
@@ -87,58 +140,6 @@ public class BlogPostController {
 				return new ResponseEntity<>("Post Updated Successfully!", HttpStatus.OK);
 			} catch (InvalidBlogPostException e) {
 				throw new InvalidBlogPostException("Post with given id not found!");
-			}
-		}
-	}
-
-	@GetMapping("/get/")
-	public ResponseEntity<Object> findAllPosts() {
-		return new ResponseEntity<>(blogPostService.listAllPosts(), HttpStatus.OK);
-	}
-
-	@GetMapping("/get/flaggedPosts")
-	public ResponseEntity<Object> findFlaggedPosts() {
-		return new ResponseEntity<>(blogPostService.listFlaggedPosts(), HttpStatus.OK);
-	}
-
-	@GetMapping("/get/findByAuthor/{userName}")
-	public ResponseEntity<Object> findByAuthors(@PathVariable String userName) {
-		if (userName.isBlank() || userName.isEmpty()) {
-			throw new InvalidBlogPostException("Author username cannot be blank!");
-		} else {
-			try {
-				return new ResponseEntity<>(blogPostService.findPostsByAuthor(userName), HttpStatus.OK);
-			} catch (InvalidBlogPostException e) {
-				throw new InvalidBlogPostException("Author with given username not found!");
-			}
-		}
-	}
-
-	@DeleteMapping("/delete/{postId}")
-	public ResponseEntity<Object> deletePost(@PathVariable Long postId) {
-		if (postId == null) {
-			throw new InvalidBlogPostException("Post Id cannot be blank!");
-		} else {
-			try {
-				blogPostService.deleteBlogPost(postId);
-				return new ResponseEntity<>("Post Deleted Successfully!", HttpStatus.OK);
-			} catch (InvalidBlogPostException e) {
-				throw new InvalidBlogPostException("Post with given id not found!");
-			}
-		}
-	}
-
-	@PutMapping("/flagPost/{postId}")
-	public ResponseEntity<Object> flagPost(@PathVariable Long postId, @RequestParam String facultyCode) {
-		if (postId == null && (facultyCode.isBlank() || facultyCode.isEmpty())) {
-			throw new InvalidBlogPostException("Post Id or Faculty Coe is blank!");
-		} else {
-			try {
-				blogPostService.flagPost(postId, facultyCode);
-				return new ResponseEntity<>("Post Flagged Successfully!", HttpStatus.OK);
-			} catch (InvalidBlogPostException e) {
-				throw new InvalidBlogPostException(
-						"Post could not be flagged either because post with Id doesn't exist or because faculty with code doesn't exist!");
 			}
 		}
 	}
