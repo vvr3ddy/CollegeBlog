@@ -1,5 +1,6 @@
 package org.wolf.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
@@ -23,7 +24,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class BlogPost {
+public class BlogPost implements Serializable {
+
+	private static final long serialVersionUID = -6460973366324042571L;
+
 	@Id
 	@Column(name = "post_id")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_generator")
@@ -35,12 +39,12 @@ public class BlogPost {
 	private LocalDateTime updateTime;
 	@Column(columnDefinition = "boolean default 0")
 	private Boolean isApproved;
-	
+
 	private Integer flaggedCount;
 
 	@ManyToOne(targetEntity = Student.class, cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST })
 	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JoinColumn(name="student_code")
+	@JoinColumn(name = "student_code")
 	private Student postedBy;
 
 }

@@ -1,5 +1,6 @@
 package org.wolf.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -19,7 +20,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class College {
+public class College implements Serializable{
+	
+	private static final long serialVersionUID = -192159469791697371L;
+	
 	@Id
 	@Column(unique = true, name = "college_code")
 	private String collegeCode;

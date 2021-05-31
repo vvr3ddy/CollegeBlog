@@ -23,6 +23,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Student implements Serializable {
+
+	private static final long serialVersionUID = 4518582951621527882L;
+
 	@Id
 	@Column(name = "reg_num", unique = true)
 	private String registrationNumber;

@@ -23,6 +23,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Faculty implements Serializable {
+
+	private static final long serialVersionUID = -5893260738629391782L;
+
 	@Id
 	@Column(unique = true, name = "faculty_code")
 	private String facultyCode;
