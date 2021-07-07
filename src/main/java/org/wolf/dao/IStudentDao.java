@@ -11,8 +11,8 @@ import org.wolf.entity.Student;
 
 @Repository
 public interface IStudentDao extends JpaRepository<Student, String> {
-
-	boolean existsByUserName(String userName);
+	
+	boolean existsByUserName(@Param("userName") String userName);
 
 	@Query("select new org.wolf.dto.StudentDTO(s.firstName, s.lastName, s.userName, s.password, s.registrationNumber, s.collegeCode.collegeCode ) from Student s where s.userName like :userName order by s.registrationNumber")
 	StudentDTO findByUserName(@Param("userName") String userName);

@@ -55,10 +55,11 @@ public class StudentController {
 		} else {
 			try {
 				return new ResponseEntity<>(studentService.findByUserName(userName), HttpStatus.OK);
-			} catch (InvalidFacultyException e) {
+			} catch (InvalidStudentException e) {
 				throw new InvalidStudentException("Student with given username not found!");
 			}
 		}
+		
 	}
 
 	@GetMapping("/get/USN/{studentUSN}")
