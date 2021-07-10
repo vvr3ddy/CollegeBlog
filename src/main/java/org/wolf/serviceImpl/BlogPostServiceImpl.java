@@ -9,6 +9,7 @@ import org.wolf.dao.IBlogPostDao;
 import org.wolf.dao.IFacultyDao;
 import org.wolf.dao.IStudentDao;
 import org.wolf.dto.BlogPostDTO;
+import org.wolf.dto.ListBlogPostDTO;
 import org.wolf.entity.BlogPost;
 import org.wolf.exception.InvalidBlogPostException;
 import org.wolf.service.IBlogPostService;
@@ -66,7 +67,7 @@ public class BlogPostServiceImpl implements IBlogPostService {
 	}
 
 	@Override
-	public List<BlogPostDTO> findPostsByAuthor(String userName) {
+	public List<ListBlogPostDTO> findPostsByAuthor(String userName) {
 		if (studentDao.existsByUserName(userName)) {
 			return blogPostDao.listByAuthor(userName);
 		} else {
@@ -78,7 +79,7 @@ public class BlogPostServiceImpl implements IBlogPostService {
 	public void flagPost(Long postId, String facultyCode) {
 		if (blogPostDao.existsById(postId) && facultyDao.existsById(facultyCode)) {
 			BlogPost post = blogPostDao.findById(postId).get();
-			post.setFlaggedCount(post.getFlaggedCount()+1);
+			post.setFlaggedCount(post.getFlaggedCount() + 1);
 			blogPostDao.save(post);
 		} else
 			throw new InvalidBlogPostException();
@@ -86,12 +87,12 @@ public class BlogPostServiceImpl implements IBlogPostService {
 	}
 
 	@Override
-	public List<BlogPostDTO> listAllPosts() {
+	public List<ListBlogPostDTO> listAllPosts() {
 		return blogPostDao.listAllPosts();
 	}
 
 	@Override
-	public List<BlogPostDTO> listFlaggedPosts() {
+	public List<ListBlogPostDTO> listFlaggedPosts() {
 		return blogPostDao.listFlaggedPosts();
 	}
 

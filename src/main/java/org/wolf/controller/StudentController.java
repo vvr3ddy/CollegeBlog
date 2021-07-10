@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.wolf.dto.StudentDTO;
 import org.wolf.exception.BlogAppValidationException;
-import org.wolf.exception.InvalidFacultyException;
 import org.wolf.exception.InvalidStudentException;
 import org.wolf.service.IStudentService;
 
