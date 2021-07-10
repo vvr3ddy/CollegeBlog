@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.wolf.dto.BlogPostDTO;
 import org.wolf.exception.BlogAppValidationException;
 import org.wolf.exception.InvalidBlogPostException;
 import org.wolf.service.IBlogPostService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @CrossOrigin(origins = "*")
 @RestController

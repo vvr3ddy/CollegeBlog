@@ -18,13 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.wolf.dto.StudentDTO;
 import org.wolf.exception.BlogAppValidationException;
 import org.wolf.exception.InvalidFacultyException;
 import org.wolf.exception.InvalidStudentException;
 import org.wolf.service.IStudentService;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -59,7 +58,7 @@ public class StudentController {
 				throw new InvalidStudentException("Student with given username not found!");
 			}
 		}
-		
+
 	}
 
 	@GetMapping("/get/USN/{studentUSN}")

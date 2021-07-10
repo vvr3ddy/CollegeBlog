@@ -18,13 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.wolf.dto.FacultyDTO;
 import org.wolf.exception.BlogAppValidationException;
 import org.wolf.exception.InvalidCollegeException;
 import org.wolf.exception.InvalidFacultyException;
 import org.wolf.service.IFacultyService;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -49,13 +48,13 @@ public class FacultyController {
 	}
 
 	@GetMapping("/get/id/{facultyCode}")
-	public ResponseEntity<Object> findByFacultyCode(@PathVariable String facultyCode){
-		if(facultyCode.isBlank()||facultyCode.isEmpty()) {
+	public ResponseEntity<Object> findByFacultyCode(@PathVariable String facultyCode) {
+		if (facultyCode.isBlank() || facultyCode.isEmpty()) {
 			throw new InvalidFacultyException("Faculty Code is blank!");
-		}else {
+		} else {
 			try {
 				return new ResponseEntity<>(facultyService.findByFacultyCode(facultyCode), HttpStatus.OK);
-			} catch(InvalidFacultyException e) {
+			} catch (InvalidFacultyException e) {
 				throw new InvalidFacultyException("Faculty with given code not found!");
 			}
 		}
@@ -63,12 +62,12 @@ public class FacultyController {
 
 	@GetMapping("/get/userName/{userName}")
 	public ResponseEntity<Object> findByUserName(@PathVariable String userName) {
-		if(userName.isBlank()||userName.isEmpty()) {
+		if (userName.isBlank() || userName.isEmpty()) {
 			throw new InvalidFacultyException("Username cannot be blank!");
-		}else {
+		} else {
 			try {
 				return new ResponseEntity<>(facultyService.findByUserName(userName), HttpStatus.OK);
-			}catch(InvalidFacultyException e) {
+			} catch (InvalidFacultyException e) {
 				throw new InvalidFacultyException("Faculty with given username not found!");
 			}
 		}
@@ -78,20 +77,20 @@ public class FacultyController {
 	public ResponseEntity<Object> listAllFaculty() {
 		return new ResponseEntity<>(facultyService.listAllFaculty(), HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/get/college/{collegeCode}")
 	public ResponseEntity<Object> listFacultyByCollege(@PathVariable String collegeCode) {
-		if(collegeCode.isBlank()||collegeCode.isEmpty()) {
+		if (collegeCode.isBlank() || collegeCode.isEmpty()) {
 			throw new InvalidFacultyException("College code is blank!");
-		}else {
+		} else {
 			try {
 				return new ResponseEntity<>(facultyService.listFacultyByCollegeCode(collegeCode), HttpStatus.OK);
-			}catch(InvalidFacultyException e) {
+			} catch (InvalidFacultyException e) {
 				throw new InvalidFacultyException("College with given code not found!");
 			}
 		}
 	}
-	
+
 	@PostMapping("/add")
 	public ResponseEntity<Object> newFaculty(@Valid @RequestBody FacultyDTO facultyDTO, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
@@ -112,7 +111,7 @@ public class FacultyController {
 			throw new InvalidFacultyException("Faculty could not be created due to errors!");
 		}
 	}
-	
+
 	@PutMapping("/update/{facultyCode}")
 	public ResponseEntity<Object> updateFaculty(@PathVariable String facultyCode,
 			@Valid @RequestBody FacultyDTO facultyDTO, BindingResult bindingResult) {
