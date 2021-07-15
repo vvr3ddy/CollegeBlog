@@ -73,7 +73,7 @@ public class StudentController {
 		}
 	}
 
-	@GetMapping("/get/college/{clgCode}")
+	@GetMapping("/get/college/{collegeCode}")
 	public ResponseEntity<Object> listAllByClgCode(@PathVariable String collegeCode) {
 		if (!(collegeCode.isEmpty() || collegeCode.isBlank())) {
 			try {

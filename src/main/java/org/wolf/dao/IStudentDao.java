@@ -24,7 +24,7 @@ public interface IStudentDao extends JpaRepository<Student, String> {
 	@Query("select new org.wolf.dto.ListStudentDTO(CONCAT(s.firstName,' ', s.lastName), s.userName, s.registrationNumber, s.collegeCode.collegeCode ) from Student s order by s.registrationNumber")
 	List<ListStudentDTO> listAll();
 
-	@Query("select new org.wolf.dto.ListStudentDTO(CONCAT(s.firstName,' ', s.lastName), s.userName, s.registrationNumber, s.collegeCode.collegeCode ) from Student s where s.collegeCode like :clgCode order by s.registrationNumber")
+	@Query("select new org.wolf.dto.ListStudentDTO(CONCAT(s.firstName,' ', s.lastName), s.userName, s.registrationNumber, s.collegeCode.collegeCode ) from Student s where s.collegeCode.collegeCode like :clgCode order by s.registrationNumber")
 	List<ListStudentDTO> listAllByCollegeCode(@Param("clgCode") String clgCode);
 
 }
