@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.wolf.dao.ICollegeDao;
 import org.wolf.dao.IStudentDao;
+import org.wolf.dto.ListStudentDTO;
 import org.wolf.dto.StudentDTO;
 import org.wolf.entity.Student;
 import org.wolf.exception.InvalidStudentException;
@@ -59,7 +60,7 @@ public class StudentServiceImpl implements IStudentService {
 	}
 
 	@Override
-	public StudentDTO findByUSN(String studentUSN) {
+	public ListStudentDTO findByUSN(String studentUSN) {
 		if (studentDao.existsById(studentUSN)) {
 			return studentDao.findByUSN(studentUSN);
 		} else
@@ -67,12 +68,12 @@ public class StudentServiceImpl implements IStudentService {
 	}
 
 	@Override
-	public List<StudentDTO> listAllStudents() {
+	public List<ListStudentDTO> listAllStudents() {
 		return studentDao.listAll();
 	}
 
 	@Override
-	public List<StudentDTO> listByCollegeCode(String collegeCode) {
+	public List<ListStudentDTO> listByCollegeCode(String collegeCode) {
 		return studentDao.listAllByCollegeCode(collegeCode);
 	}
 
