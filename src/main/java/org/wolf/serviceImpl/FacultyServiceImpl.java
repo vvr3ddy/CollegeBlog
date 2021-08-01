@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.wolf.dao.ICollegeDao;
 import org.wolf.dao.IFacultyDao;
 import org.wolf.dto.FacultyDTO;
+import org.wolf.dto.ListFacultyDTO;
 import org.wolf.entity.Faculty;
 import org.wolf.exception.InvalidFacultyException;
 import org.wolf.service.IFacultyService;
@@ -65,12 +66,12 @@ public class FacultyServiceImpl implements IFacultyService {
 	}
 
 	@Override
-	public List<FacultyDTO> listAllFaculty() {
+	public List<ListFacultyDTO> listAllFaculty() {
 		return facultyDao.listAll();
 	}
 
 	@Override
-	public List<FacultyDTO> listFacultyByCollegeCode(String collegeCode) {
+	public List<ListFacultyDTO> listFacultyByCollegeCode(String collegeCode) {
 		if (collegeDao.existsById(collegeCode)) {
 			return facultyDao.listByCollegeCode(collegeCode);
 		} else {
