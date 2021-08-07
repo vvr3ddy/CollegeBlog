@@ -18,4 +18,5 @@ public class ListBlogPostDTO {
     private LocalDateTime creationDate;
     private LocalDateTime updateTime;
     private Integer flaggedCount;
+    private Boolean isApproved;
 }
